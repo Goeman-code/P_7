@@ -1,8 +1,35 @@
-import React from "react";
+import React, {useState} from "react";
 import { Stack, Typography, TextField, Button } from "@mui/material";
 import '@fontsource/roboto/500.css'
 
-export default function login() {
+
+const Login = () => {
+    const [form, setForm] = useState({email: "", password: ""})
+    const [error, setError] = useState({email: "", password: ""})
+
+    const handleButtonClick = () => {
+        console.log(form);
+        // submit form
+    }
+
+    const handleChangeEmail = (event) => {
+        const email = event.target.value
+        if (email !== undefined) {
+            // regex pour test email
+
+            setError({...error, email: "Email non valide"})
+            return;
+        }
+
+        setError({...error, email: ""})
+        setForm({...form, email: event.target.value})
+    }
+
+    const handleChangePassword = (event) => {
+        setForm({...form, password: event.target.value})
+    }
+
+
     return (
             <Stack
                 direction="column"
@@ -15,9 +42,25 @@ export default function login() {
                 width="20%"
             >
                 <Typography variant="h5" color="#FD2D01">Connexion :</Typography>
-                <TextField id="standard-basic" label="e-mail" variant="standard" size="normal" fullWidth />
-                <TextField id="standard-basic" label="password" variant="standard" size="normal" fullWidth />
-                <Button variant="contained" sx={{marginTop:'25px!important'}}>Log in</Button>
+                <TextField
+                    error={error.email.length > 0}
+                    helperText={error.email}
+                    onChange={handleChangeEmail}
+                    id="standard-basic"
+                    label="e-mail"
+                    variant="standard"
+                    size="normal"
+                    fullWidth />
+                <TextField
+                    onChange={handleChangePassword}
+                    id="standard-basic"
+                    label="password"
+                    variant="standard"
+                    size="normal"
+                    fullWidth />
+                <Button variant="contained" sx={{marginTop:'25px!important'}} onClick={handleButtonClick}>Log in</Button>
             </Stack>
     )
 }
+
+export default Login;
